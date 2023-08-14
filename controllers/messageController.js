@@ -2,26 +2,20 @@ const Pool = require("pg").Pool;
 const config = require("../models/config");
 const pool = new Pool(config);
 
-const Queries = require("../models/queries");
-
 /// ROUTES ///
 
-//GET details of messages:
-exports.index = (req, res) => {
+//GET all messages:
+exports.list = (req, res, next) => {
   pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
     if (error) {
       throw error;
+    } else {
+      let allMessages = results.rows;
+      res.render("messages", {
+        title: "List of all messages",
+        messages_list: allMessages,
+      });
     }
-    res.render("messages");
-  });
-};
-
-//Display list of all messages:
-exports.list = (req, res, next) => {
-  const allMessages = "haha";
-  res.render("messages-list", {
-    title: "Messages list",
-    messages_list: allMessages,
   });
 };
 
@@ -32,8 +26,8 @@ exports.form = (req, res, next) => {
   });
 };
 
-// Handle book create on POST:
-exports.create_message = (req, res, next) => {
+// PUT a new message:
+exports.create_message = (req, res) => {
   const { username, text } = req.body;
   let date = new Date();
 
@@ -47,4 +41,16 @@ exports.create_message = (req, res, next) => {
       res.status(201).redirect("/messages");
     }
   );
+};
+
+/*DELETE a message*/
+exports.delete_message = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  pool.query("DELETE FROM users WHERE id = $1", [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    res.status(200).send(`User deleted with ID: ${id}`);
+  });
 };

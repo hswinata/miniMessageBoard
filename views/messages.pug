@@ -2,6 +2,11 @@ extends layout
 
 block content
   h1= title
-  p This is the messages route
   a(href='/messages/new')
     button Add New Message
+
+  ul 
+    each message in messages_list
+      li #{message.text} by #{message.username} posted at #{message.date}
+
+    
