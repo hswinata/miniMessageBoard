@@ -1,6 +1,8 @@
-form(method='POST' action='/new')
+form(method='POST' action='/messages/new')
+  h1 #{title}
   label(for='') User:
   input#user(name='username' type='text' required='' autocomplete='off')
   label(for='') Text:
   input#text(name='text' type='text' required='' autocomplete='off')
+  br
   button(type='submit') SUBMIT
