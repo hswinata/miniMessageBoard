@@ -6,6 +6,22 @@ block content
     label(for='user') Name:
     input#user(name='username' type='text' required='' autocomplete='off')
     label(for='text') Message:
-    textarea#text(name='text' type='text' required='' autocomplete='off' rows='10' cols="50")
+      span#errorMessage
+
+    textarea#text(name='text' type='text' required='' autocomplete='off' rows='5' cols="50" maxlength="200" oninput="checkLength()")
     br
     button(type='submit') SUBMIT
+
+  script.
+    function checkLength() {
+      const inputElement = document.getElementById('text');
+      const errorMessage = document.getElementById('errorMessage');
+      const inputText = inputElement.value;
+      const inputLength = inputText.length;
+
+      if (inputLength === 200) {
+        errorMessage.textContent = '⛔️ Your message has reached 200 characters! ⛔️'
+      } else {
+        errorMessage.textContent = '';
+      }
+    }

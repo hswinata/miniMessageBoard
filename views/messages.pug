@@ -5,6 +5,8 @@ block content
   a(href='/messages/new')
     button Add New Message
 
-  ul 
-    each message in messages_list
-      li #{message.text} by #{message.username} posted at #{message.date}
+
+  div
+    ul.container--flex 
+      each message in messages_list
+        li @#{message.username} says #{message.text} at #{message.date}
