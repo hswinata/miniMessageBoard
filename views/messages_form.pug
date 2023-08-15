@@ -1,8 +1,11 @@
-form(method='POST' action='/messages/new')
-  h1 #{title}
-  label(for='') User:
-  input#user(name='username' type='text' required='' autocomplete='off')
-  label(for='') Text:
-  input#text(name='text' type='text' required='' autocomplete='off')
-  br
-  button(type='submit') SUBMIT
+extends layout.pug
+
+block content
+  form(method='POST' action='/messages/new')
+    h1= title
+    label(for='user') Name:
+    input#user(name='username' type='text' required='' autocomplete='off')
+    label(for='text') Message:
+    textarea#text(name='text' type='text' required='' autocomplete='off' rows='10' cols="50")
+    br
+    button(type='submit') SUBMIT

@@ -22,7 +22,7 @@ exports.list = (req, res, next) => {
 // Display create message form:
 exports.form = (req, res, next) => {
   res.render("messages_form", {
-    title: "Add new message to board!",
+    title: "Add a new message!",
   });
 };
 
