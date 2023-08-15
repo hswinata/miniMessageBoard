@@ -3,10 +3,16 @@ extends layout
 block content
   h1= title
   a(href='/messages/new')
-    button Add New Message
-
+    button.newmessage Add New Message
 
   div
     ul.container--flex 
       each message in messages_list
-        li @#{message.username} says #{message.text} at #{message.date}
+        li @#{message.username} says:
+          br
+          span #{message.text}
+          br
+          span#timestamp at #{message.date}
+        form(method="POST" action=`/messages/${message.id}/delete`)
+                input#userid(type="hidden", name="_method", required="true", value="DELETE")
+                button(type="submit").deletemessage delete

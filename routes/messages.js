@@ -2,8 +2,11 @@ const express = require("express");
 const router = express.Router();
 const message_controller = require("../controllers/messageController");
 
-// GET catalog of messages:
+// GET messages:
 router.get("/", message_controller.list);
+
+// GET a single message:
+router.get("/:id", message_controller.message_get);
 
 //GET /new page:
 router.get("/new", message_controller.form);
@@ -11,7 +14,7 @@ router.get("/new", message_controller.form);
 //POST /new message:
 router.post("/new", message_controller.create_message);
 
-//DELETE a message:
-router.delete("", message_controller.delete_message);
+//POST request to delete a message:
+router.post("/:id/delete", message_controller.delete_message);
 
 module.exports = router;

@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+    h1 @#{message.username} #{id} says:
+    div
+        ul 
+            li #{message.text} 
+                br
+                span#timestamp at #{message.date}
+
+            form(method="POST" action=`/messages/${message.id}/delete`)
+                input#userid(type="hidden", name="_method", required="true", value="DELETE")
+                button(type="submit").deletemessage delete
