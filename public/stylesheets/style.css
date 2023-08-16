@@ -118,6 +118,12 @@ textarea#text {
   min-width: 400px;
 }
 
+input#user:focus,
+textarea#text:focus {
+  outline: none;
+  border: 2px solid #25edc4;
+}
+
 span#charCount {
   position: absolute;
   right: -1%;

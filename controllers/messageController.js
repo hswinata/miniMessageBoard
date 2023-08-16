@@ -55,7 +55,7 @@ exports.create_message = async (req, res, next) => {
   const date = newDate.toLocaleString();
 
   try {
-    pool.query(
+    await pool.query(
       "INSERT INTO users (username, text, date) VALUES ($1, $2, $3) RETURNING *",
       [username, text, date]
     );
@@ -69,7 +69,7 @@ exports.create_message = async (req, res, next) => {
 exports.delete_message = async (req, res, next) => {
   const messageId = req.params.id;
   try {
-    pool.query("DELETE FROM users WHERE id = $1", [messageId]);
+    await pool.query("DELETE FROM users WHERE id = $1", [messageId]);
     res.status(202).redirect("/messages");
   } catch (error) {
     throw error;
