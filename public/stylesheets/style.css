@@ -12,7 +12,9 @@ h1 {
   font-size: 2rem;
 }
 
-button {
+button.newmessage,
+.addmessage,
+.goback {
   background-color: black;
   color: white;
   font-size: 1.1rem;
@@ -23,8 +25,10 @@ button {
   border: none;
 }
 
-button:hover {
-  background-color: gold;
+button.newmessage:hover,
+.addmessage:hover,
+.goback:hover {
+  background-color: #25edc4;
   color: black;
   cursor: pointer;
 }
@@ -35,10 +39,13 @@ ul {
   flex-direction: column;
   list-style-type: none;
   gap: 2rem;
+
+  position: relative;
 }
 
 li {
   position: relative;
+  margin-top: 1.8rem;
   max-width: 80%;
   border: 1px black solid;
   padding: 1rem;
@@ -57,11 +64,35 @@ li {
   padding-right: 0.5rem;
 }
 
-button.newmessage {
-  margin: auto 0;
+button.deletemessage {
+  position: absolute;
+  margin-top: 1.5rem;
+  right: 0;
+  background-color: #ed254e;
+  border: none;
+
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.5rem 1rem;
+  border-radius: 1%;
 }
 
-/* Form styling: */
+button.deletemessage:hover {
+  background-color: #25edc4;
+  color: black;
+  cursor: pointer;
+}
+
+.link {
+  color: black;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #25edc4;
+}
+
+/*------------- Form styling: -------------*/
 
 form {
   appearance: none;
@@ -72,19 +103,28 @@ label {
   margin-bottom: 0.2rem;
   position: relative;
   width: 50%;
+  min-width: 400px;
 }
 
-input,
-textarea {
+input#user,
+textarea#text {
   width: 50%;
   padding: 0.5rem;
   margin-bottom: 1rem;
   font-size: 1rem;
+  font-family: Arial;
   resize: none;
+  max-width: 80%;
+  min-width: 400px;
 }
 
-#errorMessage {
+span#charCount {
   position: absolute;
-  right: 0;
-  color: red;
+  right: -1%;
+}
+
+span#errorMessage {
+  position: absolute;
+  right: -1%;
+  color: #ed254e;
 }

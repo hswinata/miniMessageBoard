@@ -3,14 +3,15 @@ extends layout.pug
 block content
   form(method='POST' action='/messages/new')
     h1= title
-    label(for='user') Name:
+    label(for='user') name:
     input#user(name='username' type='text' required='' autocomplete='off')
-    label(for='text') Message:
-      span#errorMessage
 
+    label(for='text') message:
+      span#charCount
+      span#errorMessage
     textarea#text(name='text' type='text' required='' autocomplete='off' rows='5' cols="50" maxlength="200" oninput="checkLength()")
     br
-    button(type='submit') SUBMIT
+    button(type='submit').addmessage submit
 
   script.
     function checkLength() {
@@ -18,10 +19,15 @@ block content
       const errorMessage = document.getElementById('errorMessage');
       const inputText = inputElement.value;
       const inputLength = inputText.length;
+      const currentLength = inputElement.value.length;
 
-      if (inputLength === 200) {
-        errorMessage.textContent = '⛔️ Your message has reached 200 characters! ⛔️'
+      if (inputLength > 199) {
+        charCount.textContent = '';
+        inputElement.value = inputElement.value.slice(0, 200);
+        errorMessage.textContent = 'Your message has reached 200 characters!';
+        return false;
       } else {
+        charCount.textContent = inputLength;
         errorMessage.textContent = '';
       }
     }

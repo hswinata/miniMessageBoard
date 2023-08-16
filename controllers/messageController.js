@@ -14,6 +14,7 @@ exports.list = (req, res, next) => {
       res.render("messages", {
         title: "List of all messages",
         messages_list: allMessages,
+        url: "hello",
       });
     }
   });
@@ -29,17 +30,23 @@ exports.message_get = (req, res, next) => {
       if (error) {
         throw error;
       } else {
-        let message = results.rows[0];
-        res.render("message_single", {
-          title: "This is a single message",
-          message: message,
-        });
+        const message = results.rows[0];
+        if (!message) {
+          res.status(404).render("message_error", {
+            message: "The message you are looking for doesn't exist!",
+          });
+        } else {
+          res.render("message_single", {
+            title: "This is a single message",
+            message: message,
+          });
+        }
       }
     }
   );
 };
 
-// Display create message form:
+// Display form to create message:
 exports.form = (req, res, next) => {
   res.render("messages_form", {
     title: "Add a new message!",
