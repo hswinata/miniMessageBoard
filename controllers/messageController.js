@@ -5,45 +5,40 @@ const pool = new Pool(config);
 /// ROUTES ///
 
 //GET all messages:
-exports.list = (req, res, next) => {
-  pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
-    if (error) {
-      throw error;
-    } else {
-      let allMessages = results.rows;
-      res.render("messages", {
-        title: "List of all messages",
-        messages_list: allMessages,
-        url: "hello",
-      });
-    }
-  });
+exports.list = async (req, res, next) => {
+  try {
+    const results = await pool.query("SELECT * FROM users ORDER BY id ASC");
+    const allMessages = results.rows;
+    res.render("messages", {
+      title: "List of all messages",
+      messages_list: allMessages,
+    });
+  } catch (error) {
+    throw error;
+  }
 };
 
 //GET a single message:
-exports.message_get = (req, res, next) => {
+exports.message_get = async (req, res, next) => {
   const userId = req.params.id;
-  pool.query(
-    "SELECT * FROM users WHERE id = $1",
-    [userId],
-    (error, results) => {
-      if (error) {
-        throw error;
-      } else {
-        const message = results.rows[0];
-        if (!message) {
-          res.status(404).render("message_error", {
-            message: "The message you are looking for doesn't exist!",
-          });
-        } else {
-          res.render("message_single", {
-            title: "This is a single message",
-            message: message,
-          });
-        }
-      }
+  try {
+    const results = await pool.query("SELECT * FROM users WHERE id = $1", [
+      userId,
+    ]);
+    const message = results.rows[0];
+    if (!message) {
+      res.status(404).render("message_error", {
+        message: "The message you're looking for doesn't exist!",
+      });
+    } else {
+      res.render("message_single", {
+        title: "This is a single message",
+        message: message,
+      });
     }
-  );
+  } catch (error) {
+    throw error;
+  }
 };
 
 // Display form to create message:
@@ -54,34 +49,29 @@ exports.form = (req, res, next) => {
 };
 
 // PUT a new message:
-exports.create_message = (req, res) => {
+exports.create_message = async (req, res, next) => {
   const { username, text } = req.body;
-  let newDate = new Date();
-  let date = newDate.toLocaleString();
+  const newDate = new Date();
+  const date = newDate.toLocaleString();
 
-  pool.query(
-    "INSERT INTO users (username, text, date) VALUES ($1, $2, $3) RETURNING * ",
-    [username, text, date],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.status(201).redirect("/messages");
-    }
-  );
+  try {
+    pool.query(
+      "INSERT INTO users (username, text, date) VALUES ($1, $2, $3) RETURNING *",
+      [username, text, date]
+    );
+    res.status(201).redirect("/messages");
+  } catch (error) {
+    throw error;
+  }
 };
 
 /*DELETE a message*/
-exports.delete_message = (req, res) => {
+exports.delete_message = async (req, res, next) => {
   const messageId = req.params.id;
-  pool.query(
-    "DELETE FROM users WHERE id = $1",
-    [messageId],
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      res.status(201).redirect("/messages");
-    }
-  );
+  try {
+    pool.query("DELETE FROM users WHERE id = $1", [messageId]);
+    res.status(202).redirect("/messages");
+  } catch (error) {
+    throw error;
+  }
 };
